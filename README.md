@@ -21,14 +21,46 @@ File name	Purpose
 logic_gates.v	Logic-gate RTL
 logic_gates_tb.v	All input combinations and VCD generation
  # Verilog  Program
-
+```
+module logic_gates(
+    input  wire a, b,
+    output wire y_and,y_or,y_not
+);
+    assign y_and = a & b;
+    assign y_or = a | b;
+    assign y_not = ~a;
+endmodule
+```
 # **Test Bench Program**
+```
+module tb;
+reg a_tb, b_tb;
+wire y_and,y_or,y_not;
+logic_gates uut (.a(a_tb), .b(b_tb), .y_and(y_and), .y_or(y_or), .y_not(y_not));
 
 
 
+initial begin
+        // ---- VCD dump setup ----
+        $dumpfile("logic_gates.vcd");   // name of the VCD file to be generated
+        $dumpvars(0, tb);   // dump all signals in this testbench hierarchy
 
+	$monitor("a_tb=%b b_tb=%b y_and=%b y_or=%b y_not=%b", 
+	a_tb,b_tb,y_and,y_or,y_not);
+	a_tb=0; b_tb=0; #10;
+	a_tb =0; b_tb=1; #10;
+	a_tb =1; b_tb=0; #10;
+	a_tb =1; b_tb=1; #10;
+	$finish;
+	end
+endmodule
+```
+
+
+# TRUTH TABLE
  
-<img width="940" height="318" alt="image" src="https://github.com/user-attachments/assets/8a343bdb-ffb4-4aac-8b88-cf59eca374a8" />
+<img width="737" height="230" alt="2b5b0868-8bf5-402d-a848-26c940779c97" src="https://github.com/user-attachments/assets/0cd31460-9f7d-4904-827e-ca95535d0fbd" />
+
 
 # Simulation Procedure
 STEP 1 – Open Terminal
@@ -79,26 +111,11 @@ The design was compiled and simulated using Synopsys VCS, and the functionality 
 Output
 # OUTPUT
 
+<img width="1600" height="489" alt="bf274c85-ef1c-4817-8847-0acff76fb9ca" src="https://github.com/user-attachments/assets/9fce6b55-6867-4f83-9d4d-a2304316fc70" />
 
  
-# Viva-Voce Questions
+# RESULT 
+The design was compiled and simulated using Synopsys VCS, and the functionality was verified using DVE waveform analysis.
 
-•	What is a logic gate?
-
-•	What are the basic logic gates in digital electronics?
-
-•	What is the Boolean expression for an AND gate? An OR gate? A NOT gate?
-
-•	Why is the NOT gate also called an inverter?
-
-•	What is a universal gate, and how can NAND/NOR realize AND, OR, and NOT?
-
-•	What is the purpose of a Verilog testbench?
-
-•	Why is a VCD file generated?
-
-•	What is the purpose of ./simv?
-•	What is the purpose of DVE?
-•	What is the difference between simulation and synthesis?
-•	What is the difference between $dumpfile and $dumpvars?
+Result Thus, the LOGIC GATES was minimized, implemented using Verilog HDL, successfully simulated using Synopsys VCS, and verified using Synopsys DVE.
 
